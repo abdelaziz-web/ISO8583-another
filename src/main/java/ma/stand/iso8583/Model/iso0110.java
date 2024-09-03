@@ -15,7 +15,6 @@ import org.springframework.stereotype.Component;
 @Getter
 @Setter
 @Document(collection = "m0100")
-
 @Component
 
 public class iso0110 {
