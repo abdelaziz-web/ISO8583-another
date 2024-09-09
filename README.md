@@ -160,8 +160,8 @@ This simulator supports ISO 8583 message types as implemented by the jPOS librar
 
 - 0100: Authorization Request
 - 0110: Authorization Response
-- 0200: Financial Transaction Request
-- 0210: Financial Transaction Response
+- 0400: Reversal Request
+- 0410: Response Reversal Response
 
 Refer to the jPOS documentation for more detailed information on message types and their usage.
 
@@ -176,18 +176,5 @@ String visaXmlPath = System.getenv("VISA_XML_PATH");
 
 Ensure this environment variable is correctly set before running the application.
 
-## Contributing
+## Architecture
 
-We welcome contributions to the Visa Transaction Simulator! If you'd like to contribute, please follow these steps:
-
-1. Fork the repository
-2. Create a new branch for your feature or bug fix
-3. Make your changes and commit them with clear, descriptive messages
-4. Push your changes to your fork
-5. Submit a pull request to the main repository
-
-Please ensure your code adheres to the existing style and includes appropriate tests.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
