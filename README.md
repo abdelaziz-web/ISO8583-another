@@ -123,12 +123,7 @@ Once the application is running, you can access the Swagger UI to explore and te
     - Response schemas
     - Available content types
 
-5. To test an endpoint:
-    - Click on the endpoint to expand it
-    - Click the "Try it out" button
-    - Fill in any required parameters or request body
-    - Click "Execute" to send the request
-    - View the response directly in the Swagger UI
+
 
 6. You can also access the raw OpenAPI specification in JSON format at:
    ```
