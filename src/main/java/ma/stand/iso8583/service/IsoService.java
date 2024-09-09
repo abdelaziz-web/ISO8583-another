@@ -117,22 +117,6 @@ public class IsoService {
             isoMsg.set(33, values.getString("forwardInstIdCode"));
             isoMsg.set(32, values.getString("acquirerInstIdCode"));
             isoMsg.set(18, values.getString("merchantType"));
-/*
-            String cardAcceptorNameLocation = values.getString("cardAcceptorNameLocation");
-            byte[] field43 = new byte[40];
-            System.arraycopy(cardAcceptorNameLocation.getBytes(), 0, field43, 0, Math.min(cardAcceptorNameLocation.length(), 40));
-            isoMsg.set(43, field43);
-*/
-            System.out.println("\nAcquirer Data:");
-            System.out.println("Card Acceptor ID : " + values.getString("cardAcceptorId"));
-            System.out.println("Card Acceptor ID Code : " + values.getString("cardAcceptorIdCode"));
-            System.out.println("Acquirer Country Code: " + values.getString("acquirerCountryCode"));
-            System.out.println("Forward Inst ID Code: " + values.getString("forwardInstIdCode"));
-            System.out.println("Acquirer Inst ID Code: " + values.getString("acquirerInstIdCode"));
-            System.out.println("Merchant Type: " + values.getString("merchantType"));
-            System.out.println("Card Acceptor Name Location: " + values.getString("cardAcceptorNameLocation"));
-
-            //     printFields(isoMsg);
 
             String part1 = null;
             String part2 = null;
@@ -154,11 +138,18 @@ public class IsoService {
             } catch (Exception e) {
                 System.out.println("Error: " + e.getMessage());
             }
-
-
             isoMsg.set("43.1", part1);
             isoMsg.set("43.2", part2);
             isoMsg.set("43.3", part3);
+
+            System.out.println("\nAcquirer Data:");
+            System.out.println("Card Acceptor ID : " + values.getString("cardAcceptorId"));
+            System.out.println("Card Acceptor ID Code : " + values.getString("cardAcceptorIdCode"));
+            System.out.println("Acquirer Country Code: " + values.getString("acquirerCountryCode"));
+            System.out.println("Forward Inst ID Code: " + values.getString("forwardInstIdCode"));
+            System.out.println("Acquirer Inst ID Code: " + values.getString("acquirerInstIdCode"));
+            System.out.println("Merchant Type: " + values.getString("merchantType"));
+            System.out.println("Card Acceptor Name Location: " + values.getString("cardAcceptorNameLocation"));
 
 
             byte[] packedMessage = isoMsg.pack();
@@ -245,9 +236,6 @@ public class IsoService {
         formatter.close();
         return result.toString();
     }
-
-
-
 
 
 }

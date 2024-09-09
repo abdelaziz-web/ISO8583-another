@@ -4,8 +4,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 @Repository
-public interface M0110repo extends MongoRepository<iso0110, String> {
+public interface M0410repo extends MongoRepository<iso0410, String> {
     @Override
-    iso0110 save(iso0110 entity);
+    iso0410 save(iso0410 entity);
 
 }

@@ -3,6 +3,10 @@ package ma.stand.iso8583.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import ma.stand.iso8583.Model.M0100repo;
+import ma.stand.iso8583.Model.M0110repo;
+import ma.stand.iso8583.Model.iso0100;
+import ma.stand.iso8583.Model.iso0110;
 import ma.stand.iso8583.service.IsoService ;
 import org.jpos.iso.ISOException;
 import org.jpos.iso.ISOUtil;
@@ -20,8 +24,8 @@ import ma.stand.iso8583.service.auth_resp;
 import  ma.stand.iso8583.service.IsoService;
 
 import static ma.stand.iso8583.service.IsoService.isoMsg;
-import static ma.stand.iso8583.service.auth_resp.createAuthResponse;
 
+@RequestMapping("/auth")
 @RestController
 @CrossOrigin(origins = {"http://localhost:4200", "http://localhost:8000"})
 @Tag(name = "ISO8583 Message Processing", description = "API endpoints for handling various ISO8583 message components")
@@ -36,6 +40,17 @@ public class IsoController {
     @Autowired
     private cache cache ;
 
+    @Autowired
+    public iso0110 isodata ;
+
+    @Autowired
+    public iso0100 isorequest ;
+
+    @Autowired
+    public M0110repo repo ;
+
+    @Autowired
+    public M0100repo repo1 ;
 
     @Operation(summary = "Process MTI (Message Type Indicator)",
             description = "Extracts and processes the MTI from the incoming ISO8583 message")
@@ -106,9 +121,10 @@ public class IsoController {
         if (requestJson.has("acq")) {
             JSONArray acqArray = requestJson.getJSONArray("acq");
 
+            cache.setProcessedAcq(acqArray);
             System.out.println("\nacquerir formatting:");
             isoService.extractAcq(acqArray);
-            cache.setProcessedAcq(acqArray);
+
 
             return ResponseEntity.ok( acqArray.toString(4));
         } else {
@@ -122,11 +138,14 @@ public class IsoController {
     @ApiResponse(responseCode = "400", description = "No processed data available")
     @GetMapping("/combined-response")
     public ResponseEntity<String> handleCombinedResponse() throws Exception {
+
+        isodata.setJsonData(auth_res.getAuthResponseAsJson());
+
+        repo.save(isodata) ;
+
         JSONObject combinedResponse = new JSONObject();
 
         JSONObject response =  auth_res.convertToJSONObject(auth_res.getAuthResponseAsJson()) ;
-
-
 
         JSONArray responseArray = new JSONArray();
 
@@ -136,15 +155,22 @@ public class IsoController {
 
         if (cache.getProcessedMti() != null) {
             combinedResponse.put("mti", cache.getProcessedMti());
+
         }
+
         if (cache.getProcessedCards() != null) {
             combinedResponse.put("cards", cache.getProcessedCards());
+
         }
+
         if (cache.getProcessedTransac() != null) {
             combinedResponse.put("transac", cache.getProcessedTransac());
+
         }
+
         if (cache.getProcessedAcq() != null) {
             combinedResponse.put("acq", cache.getProcessedAcq());
+
         }
 
         if (combinedResponse.length() > 0) {
@@ -154,7 +180,13 @@ public class IsoController {
             cache.setProcessedTransac(null);
             cache.setProcessedAcq(null); ;
 
-       //     return ResponseEntity.ok(combinedResponse);
+            isorequest.setJsonData(combinedResponse.toString(4));
+
+            System.out.println("i m here " +combinedResponse);
+
+            repo1.save(isorequest) ;
+
+
             return ResponseEntity.ok( combinedResponse.toString(4));
 
 
@@ -172,7 +204,7 @@ public class IsoController {
 
         JSONObject message = new JSONObject();
 
-        String hexres = ISOUtil.hexString(createAuthResponse().pack());
+        String hexres = ISOUtil.hexString(auth_res.createAuthResponse().pack());
 
         String hexreq = ISOUtil.hexString(isoMsg.pack());
 

@@ -1,18 +1,22 @@
-package Model;
+package ma.stand.iso8583.Model;
 
 
 import lombok.*;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
+import org.springframework.stereotype.Component;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
+@Component
 @Document(collection = "m0100")
 public class iso0100 {
-         @MongoId
+        @Id
+        private String id ;
         private String mti;
         private String pan_2;
         private String processingCode_3;
@@ -25,16 +29,23 @@ public class iso0100 {
         private String merchantType_18;
         private String acquirerCountryCode_19;
         private String posEntryMode_22;
-        private String cardSequence_23;
+        private String cardSequence_23; /**/
         private String posConditionCode_25;
         private String acquirerInstIdCode_32;
-        private String forwardInstIdCode_33;
-        private String track2_35;
+        private String forwardInstIdCode_33; /**/
+        private String track2_35; /**/
         private String retrievalReferenceCode_37;
         private String cardAcceptorId_41;
         private String cardAcceptorIdCode_42;
         private String cardAcceptorNameLocation_43;
         private String transactionCurrencyCode_49;
         private String billingCurrencyCode_51;
+
+        private  String jsonData;
+
+        public iso0100(String jsonData) {
+                this.jsonData = jsonData;
+        }
+
 
 }

@@ -24,22 +24,24 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
                 description = "API for ISO8583 message processing"
         )
 )
-@EnableMongoRepositories(basePackages = "Model")
+@EnableMongoRepositories(basePackages = "ma.stand.iso8583.Model")
 
-@ComponentScan(basePackages = {"ma.stand.iso8583.service","ma.stand.iso8583.controller","Model","ma.stand.iso8583.cache"})
+@ComponentScan(basePackages = {"ma.stand.iso8583.service","ma.stand.iso8583.controller","ma.stand.iso8583.Model","ma.stand.iso8583.cache"})
 public class Iso8583Application {
 
     @Autowired
     private MongoOperations mongoTemplate;
 
-    @Autowired
-    static ma.stand.iso8583.service.insertion_service a ;
+
 
     @Autowired
     auth_resp authResp ;
 
+
+
     public static void main(String[] args) throws Exception {
         SpringApplication.run(Iso8583Application.class, args);
+
 
 
     }

@@ -8,11 +8,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface M0100repo extends MongoRepository<iso0100, String> {
+public interface M0400repo extends MongoRepository<iso0400, String> {
 
     @Override
-    iso0100 save(iso0100 entity);
+    iso0400 save(iso0400 entity);
 
     // Find by PAN (Primary Account Number)
-    Optional<iso0100> findById(String pan);
+    Optional<iso0400> findById(String id);
 }

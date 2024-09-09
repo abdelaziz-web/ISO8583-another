@@ -1,7 +1,7 @@
  package ma.stand.iso8583.service;
 
- import Model.M0100repo;
- import Model.M0110repo;
+ import ma.stand.iso8583.Model.M0110repo;
+ import ma.stand.iso8583.Model.iso0110;
  import org.jpos.iso.ISOComponent;
  import org.jpos.iso.ISOException;
  import org.jpos.iso.ISOMsg;
@@ -9,10 +9,8 @@
  import org.jpos.iso.packager.GenericPackager;
  import org.json.JSONObject;
  import org.springframework.beans.factory.annotation.Autowired;
- import org.springframework.context.annotation.Bean;
  import org.springframework.context.annotation.Configuration;
  import org.springframework.stereotype.Service;
- import Model.iso0110;
 
  import java.nio.charset.StandardCharsets;
 
@@ -20,12 +18,14 @@
  @Configuration
  public class auth_resp {
 
-
-
      public ISOMsg  response;
 
+    @Autowired
+    public iso0110 isodata ;
 
 
+    @Autowired
+    public M0110repo repo ;
 
      private static GenericPackager packager;
 
@@ -46,7 +46,7 @@
          }
      }
 
-     public static ISOMsg createAuthResponse() throws Exception {
+     public  ISOMsg createAuthResponse() throws Exception {
 
          ISOMsg response = new ISOMsg();
          response.setPackager(packager);
@@ -87,6 +87,8 @@
          response.set(field44);
 
          printFields(response);
+
+
 
 
 
