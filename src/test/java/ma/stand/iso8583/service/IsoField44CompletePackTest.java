@@ -1,7 +1,6 @@
 package ma.stand.iso8583.service;
 
 import org.jpos.iso.ISOException;
-import org.jpos.iso.ISOField;
 import org.jpos.iso.ISOMsg;
 import org.jpos.iso.ISOUtil;
 import org.jpos.iso.packager.GenericPackager;
@@ -9,27 +8,23 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.io.InputStream;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-public class IsoField44Test {
+public class IsoField44CompletePackTest {
 
     private GenericPackager packager;
 
     @BeforeEach
     void setUp() throws ISOException {
-      //  InputStream is = getClass().getResourceAsStream("visa.xml");
         packager = new GenericPackager(System.getenv("visa"));
     }
 
     @Test
-    void testField44PackingAndUnpacking() throws ISOException {
+    void testField44CompletePackingAndUnpacking() throws ISOException {
         ISOMsg msg = new ISOMsg();
         msg.setPackager(packager);
         msg.setMTI("0100");
-
 
         // Set field 44 and its subfields
         ISOMsg field44 = new ISOMsg(44);
@@ -50,34 +45,29 @@ public class IsoField44Test {
 
         msg.set(field44);
 
-
-
-
-
+        // Pack the message
         byte[] packed = msg.pack();
+        String packedHex = ISOUtil.hexString(packed);
 
+        // Expected packed value (this should be the correct packed representation based on your specific implementation)
+        String expectedPackedHex = "0100000000000010000013415920434D30303059204D3030303330303030" ;
+        System.out.println("Actual packed message  : " + packedHex);
+        System.out.println("Expected packed message: " + expectedPackedHex);
+
+        assertEquals(expectedPackedHex, packedHex, "Packed message does not match expected value");
+
+        // Unpack and verify each subfield
         ISOMsg unpackedMsg = new ISOMsg();
         unpackedMsg.setPackager(packager);
         unpackedMsg.unpack(packed);
 
         ISOMsg unpackedField44 = (ISOMsg) unpackedMsg.getComponent(44);
 
-
-
-        assertEquals("A", unpackedField44.getString(1), "Subfield 1 mismatch");
-        System.out.println(ISOUtil.hexString(unpackedField44.getBytes(1)));
-        assertEquals("Y", unpackedField44.getString(2), "Subfield 2 mismatch");
-        assertEquals(" ", unpackedField44.getString(3), "Subfield 3 mismatch");
-        assertEquals("C", unpackedField44.getString(4), "Subfield 4 mismatch");
-        assertEquals("M", unpackedField44.getString(5), "Subfield 5 mismatch");
-        assertEquals("00", unpackedField44.getString(6), "Subfield 6 mismatch");
-        assertEquals("0", unpackedField44.getString(7), "Subfield 7 mismatch");
-        assertEquals("Y", unpackedField44.getString(8), "Subfield 8 mismatch");
-        assertEquals(" ", unpackedField44.getString(9), "Subfield 9 mismatch");
-        assertEquals("M", unpackedField44.getString(10), "Subfield 10 mismatch");
-        assertEquals("00", unpackedField44.getString(11), "Subfield 11 mismatch");
-        assertEquals("0", unpackedField44.getString(12), "Subfield 12 mismatch");
-        assertEquals("3", unpackedField44.getString(13), "Subfield 13 mismatch");
-        assertEquals("0000", unpackedField44.getString(14), "Subfield 14 mismatch");
+        for (int i = 1; i <= 14; i++) {
+            String expectedValue = field44.getString(i);
+            String actualValue = unpackedField44.getString(i);
+            assertEquals(expectedValue, actualValue, "Subfield " + i + " mismatch");
+            System.out.println("Subfield " + i + " - Expected: " + expectedValue + ", Actual: " + actualValue);
+        }
     }
 }

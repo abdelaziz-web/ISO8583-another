@@ -28,7 +28,7 @@ public class CancelContro {
 
 
     @PostMapping("/submit")
-    @Operation(summary = "Submit cancellation data", description = "Endpoint to handle cancellation data submission")
+    @Operation(summary = "Submit cancellation data", description = "Hex format")
     @ApiResponse(responseCode = "200", description = "Cancellation data processed successfully")
     public ResponseEntity<String> submitCancellationData(@RequestBody String data) {
         System.out.println("Received cancellation data: " + data);
@@ -105,7 +105,6 @@ public class CancelContro {
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(response.toString());
-
 
     }
 
