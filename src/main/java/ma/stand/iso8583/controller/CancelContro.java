@@ -88,13 +88,8 @@ public class CancelContro {
     @ApiResponse(responseCode = "200", description = "Cancellation data processed successfully")
     public ResponseEntity<String > gethexformat(@RequestBody(required = false) String data) throws Exception {
 
-
-
-
         String hex0400 = reverseService.createvancelrequestpacked();
         String hex0410 = reverseService.createcancelResponsepacked();
-
-
 
         JSONObject response = new JSONObject();
         response.put("hex0400", hex0400);

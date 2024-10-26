@@ -45,7 +45,7 @@ public class Iso8583Application {
 
 
     }
-
+/*
     @Bean
     public CommandLineRunner createCollections() {
         return args -> {
@@ -63,7 +63,7 @@ public class Iso8583Application {
             }
         };
     }
-
+*/
 
     @Bean
     public WebMvcConfigurer corsConfigurer() {

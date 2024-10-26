@@ -88,10 +88,6 @@
 
          printFields(response);
 
-
-
-
-
          return response;
      }
 
@@ -170,10 +166,5 @@
 
 
      }
-
-
-
-
-
 
  }

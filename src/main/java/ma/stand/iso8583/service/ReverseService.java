@@ -169,8 +169,6 @@ public class ReverseService {
 
     public String createcancelResponsepacked() throws Exception {
 
-
-
         isoMsg1.setMTI("0410");
 
         isoMsg1.set(2, iso0410.getPan_2());

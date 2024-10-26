@@ -31,7 +31,6 @@ public class iso0410 {
     private String cardAcceptorId_41;
     private String cardAcceptorIdCode_42;
     private String transactionCurrencyCode_49;
-
     private  String jsonData;
 
     public iso0410(String jsonData) {

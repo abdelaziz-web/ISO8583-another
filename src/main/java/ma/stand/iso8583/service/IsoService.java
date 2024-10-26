@@ -161,8 +161,6 @@ public class IsoService {
             String hexString = ISOUtil.hexString(packedMessage);
             System.out.println("Packed message (Hex): " + hexString);
 
-
-
             // Display packed message in hexdump format
             System.out.println("Packed message (Hexdump):");
             System.out.println(getHexDump(packedMessage));
@@ -201,10 +199,6 @@ public class IsoService {
             }
         }
     }
-
-
-
-
 
 
     public static String getHexDump(byte[] bytes) {
