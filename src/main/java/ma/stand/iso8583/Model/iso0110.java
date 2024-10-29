@@ -1,6 +1,8 @@
 package ma.stand.iso8583.Model;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -46,5 +48,11 @@ public class iso0110 {
     public iso0110(String jsonData) {
         this.jsonData = jsonData;
     }
+
+
+
+
+
+
 
 }

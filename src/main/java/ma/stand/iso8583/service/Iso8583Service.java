@@ -1,4 +1,5 @@
 package ma.stand.iso8583.service;
+
 import ma.stand.iso8583.Model.Cases;
 import ma.stand.iso8583.Model.Case;
 import ma.stand.iso8583.Model.Field;
@@ -61,7 +62,9 @@ public class Iso8583Service {
                         .orElse("96"); // Default error response if field39 not found
             }
 
-            return "25"; // No matching case found
+            // Changed: Return "00" (approval) when no matching case is found
+            return "00";
+
         } catch (Exception e) {
             log.error("Error processing ISO8583 request: ", e);
             return "96"; // System malfunction

@@ -413,6 +413,11 @@
 	packager="org.jpos.iso.packager.GenericSubFieldPackager"
 	emitBitmap="false"
 	>
+     <isofield id="0"
+                  name="NOT PRESENT"
+                  length="0"
+                  pad="false"
+                  class="org.jpos.iso.IF_NOP"/>
 	
 	<isofield id="1"
 	    name="Dataset ID"
@@ -423,7 +428,7 @@
 	    name="Dataset TLV data elements"
 	    length="252"
 	    pad="false"
-	    class="org.jpos.iso.IFB_LLLHBINARY"/>
+	    class="org.jpos.iso.IFB_LLHBINARY"/>
 	
     </isofieldpackager>
 

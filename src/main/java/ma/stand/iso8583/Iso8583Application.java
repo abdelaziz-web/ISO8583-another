@@ -32,8 +32,6 @@ public class Iso8583Application {
     @Autowired
     private MongoOperations mongoTemplate;
 
-
-
     @Autowired
     auth_resp authResp ;
 

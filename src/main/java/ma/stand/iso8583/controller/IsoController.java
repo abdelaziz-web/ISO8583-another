@@ -9,6 +9,7 @@ import ma.stand.iso8583.Model.iso0100;
 import ma.stand.iso8583.Model.iso0110;
 import ma.stand.iso8583.service.IsoService ;
 import org.jpos.iso.ISOException;
+import org.jpos.iso.ISOMsg;
 import org.jpos.iso.ISOUtil;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -23,7 +24,7 @@ import ma.stand.iso8583.service.auth_resp;
 
 import  ma.stand.iso8583.service.IsoService;
 
-import static ma.stand.iso8583.service.IsoService.isoMsg;
+import static ma.stand.iso8583.service.IsoService.*;
 
 @RequestMapping("/auth")
 @RestController
@@ -139,9 +140,18 @@ public class IsoController {
     @GetMapping("/combined-response")
     public ResponseEntity<String> handleCombinedResponse() throws Exception {
 
+
+        ISOMsg iso =  new ISOMsg() ;
+
+        iso = auth_res.createAuthResponse() ;
+
+        isodata = fill0110(isodata,iso);
+
         isodata.setJsonData(auth_res.getAuthResponseAsJson());
 
         repo.save(isodata) ;
+
+        isodata.setJsonData(auth_res.getAuthResponseAsJson());
 
         JSONObject combinedResponse = new JSONObject();
 
@@ -178,17 +188,16 @@ public class IsoController {
             cache.setProcessedMti(null);
             cache.setProcessedCards(null);
             cache.setProcessedTransac(null);
-            cache.setProcessedAcq(null); ;
+            cache.setProcessedAcq(null);
 
+            isorequest = createIso0100FromMessage() ;
             isorequest.setJsonData(combinedResponse.toString(4));
 
             System.out.println("i m here " +combinedResponse);
 
             repo1.save(isorequest) ;
 
-
             return ResponseEntity.ok( combinedResponse.toString(4));
-
 
         } else {
           //  return ResponseEntity.badRequest().body(new JSONObject().put("error", "No processed data available"));
@@ -201,6 +210,8 @@ public class IsoController {
     @ApiResponse(responseCode = "200", description = "Hexadecimal representation retrieved successfully")
     @GetMapping("/hex")
     public ResponseEntity<String> handlehex() throws Exception {
+
+
 
         JSONObject message = new JSONObject();
 
@@ -216,9 +227,7 @@ public class IsoController {
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(message.toString());
 
+
     }
-
-
-
 
 }

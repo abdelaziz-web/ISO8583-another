@@ -1,6 +1,8 @@
 package ma.stand.iso8583.service;
 
 import jakarta.annotation.PostConstruct;
+import ma.stand.iso8583.Model.iso0100;
+import ma.stand.iso8583.Model.iso0110;
 import org.jpos.iso.ISOComponent;
 import org.jpos.iso.ISOException;
 import org.jpos.iso.ISOMsg;
@@ -88,6 +90,8 @@ public class IsoService {
             isoMsg.set(37, values.getString("retrievalReferenceCode"));
             isoMsg.set(51, values.getString("billingCurrencyCode"));
             isoMsg.set(10, values.getString("billingConversionRate"));
+
+
 
             System.out.println("\nTransaction Data:");
             System.out.println("Transmission Date Time: " + values.getString("transmissionDateTime"));
@@ -230,6 +234,77 @@ public class IsoService {
         formatter.close();
         return result.toString();
     }
+
+    public static iso0100 createIso0100FromMessage() {
+        iso0100 iso0100Instance = new iso0100();
+
+        try {
+            iso0100Instance.setMti(isoMsg.getMTI());
+            iso0100Instance.setPan_2(isoMsg.getString(2));
+            iso0100Instance.setProcessingCode_3(isoMsg.getString(3));
+            iso0100Instance.setBillingAmount_6(isoMsg.getString(6));
+            iso0100Instance.setTransmissionDateTime_7(isoMsg.getString(7));
+            iso0100Instance.setBillingConversionRate_10(isoMsg.getString(10));
+            iso0100Instance.setSystemTraceAuditNumber_11(isoMsg.getString(11));
+            iso0100Instance.setCardExpiration_14(isoMsg.getString(14));
+            iso0100Instance.setMerchantType_18(isoMsg.getString(18));
+            iso0100Instance.setAcquirerCountryCode_19(isoMsg.getString(19));
+            iso0100Instance.setPosEntryMode_22(isoMsg.getString(22));
+            iso0100Instance.setCardSequence_23(isoMsg.getString(23));
+            iso0100Instance.setPosConditionCode_25(isoMsg.getString(25));
+            iso0100Instance.setAcquirerInstIdCode_32(isoMsg.getString(32));
+            iso0100Instance.setForwardInstIdCode_33(isoMsg.getString(33));
+            iso0100Instance.setTrack2_35(isoMsg.getString(35));
+            iso0100Instance.setRetrievalReferenceCode_37(isoMsg.getString(37));
+            iso0100Instance.setCardAcceptorId_41(isoMsg.getString(41));
+            iso0100Instance.setCardAcceptorIdCode_42(isoMsg.getString(42));
+            iso0100Instance.setCardAcceptorNameLocation_43(
+                    isoMsg.getString("43.1") + "*" +
+                            isoMsg.getString("43.2") + "*" +
+                            isoMsg.getString("43.3")
+            );
+            iso0100Instance.setTransactionCurrencyCode_49(isoMsg.getString(49));
+            iso0100Instance.setBillingCurrencyCode_51(isoMsg.getString(51));
+
+        } catch (ISOException e) {
+            System.out.println("Error extracting ISO message fields: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return iso0100Instance;
+    }
+
+    public static iso0110 fill0110(iso0110 iso, ISOMsg msg) {
+        try {
+            iso.setMti(msg.getMTI());
+            iso.setPan_2(msg.getString(2));
+            iso.setProcessingCode_3(msg.getString(3));
+            iso.setTransactionAmount_4(msg.getString(4));
+            iso.setTransmissionDateTime_7(msg.getString(7));
+            iso.setSystemTraceAuditNumber_11(msg.getString(11));
+            iso.setAcquirerCountryCode_19(msg.getString(19));
+            iso.setCardSequence_23(msg.getString(23));
+            iso.setPosConditionCode_25(msg.getString(25));
+            iso.setAcquirerInstIdCode_32(msg.getString(32));
+            iso.setRetrievalReferenceNumber_37(msg.getString(37));
+            iso.setAuthorizationIdResponse_38(msg.getString(38));
+            iso.setResponseCode_39(msg.getString(39));
+            iso.setCardAcceptorTerminalId_41(msg.getString(41));
+            iso.setCardAcceptorIdCode_42(msg.getString(42));
+
+
+
+
+            iso.setTransactionCurrencyCode_49(msg.getString(49));
+
+        } catch (ISOException e) {
+            System.out.println("Error extracting ISO 0110 message fields: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+    return iso ;
+    }
+
 
 
 }

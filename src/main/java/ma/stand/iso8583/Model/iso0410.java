@@ -37,5 +37,4 @@ public class iso0410 {
         this.jsonData = jsonData;
     }
 
-
 }
